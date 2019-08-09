@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.dao.UsuarioDAO;
+import model.vo.UsuarioVO;
 
 /**
  *
@@ -41,12 +42,19 @@ public class ControllerUsuario extends HttpServlet {
             Gson  objetoJson = new Gson();
             String ruta = request.getServletPath();
             String [] nombre= new String[3];
+            UsuarioVO usuarioVO= new UsuarioVO();
             UsuarioDAO usuarioDAO = new UsuarioDAO();
+            
             ArrayList<Object> lista = new ArrayList<Object>();
             switch(ruta){
                 case "/usuario/listar":
                     lista=usuarioDAO.listar();
                     break;
+                case "/usuario/consultar":
+                    long cedula= Long.parseLong(request.getParameter("nombre"));
+                    usuarioVO.setCedula(cedula);
+                    usuarioDAO.consultar();
+                    break;                    
             }
             
             
@@ -54,6 +62,8 @@ public class ControllerUsuario extends HttpServlet {
             response.setCharacterEncoding("UTF-8");
             out.print(objetoJson.toJson(lista));
             out.flush();
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
         }
     }
 

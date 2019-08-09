@@ -27,17 +27,22 @@ public class ConexionSingleton {
     public static ConexionSingleton conexionSingleton;
     public static Connection conn;
     
-    private ConexionSingleton(){      
+    private ConexionSingleton() {      
         try {
             //Llamar al archivo propiedades
             //donde esta la configuración con la BD
             Properties properties = new Properties();            
             //properties.load(new FileInputStream("src/java/model/conexion/config.properties"));
 
+//            String dns=properties.getProperty("server")+properties.getProperty("bd");
+//            String user=properties.getProperty("user");
+//            String password=properties.getProperty("password");
+            
+            
             String dns="jdbc:mysql://localhost:3306/mvcjava";
             String user="root";
             String password="";
-            
+
             
             //crear conexión
             forName("com.mysql.jdbc.Driver");
@@ -48,7 +53,11 @@ public class ConexionSingleton {
             Logger.getLogger(ConexionSingleton.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(ConexionSingleton.class.getName()).log(Level.SEVERE, null, ex);
-        }               
+        } //catch (FileNotFoundException ex) {
+//            Logger.getLogger(ConexionSingleton.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (IOException ex) {
+//            Logger.getLogger(ConexionSingleton.class.getName()).log(Level.SEVERE, null, ex);
+//        }               
     }
     
     public static Connection obtenerConexionSingleton(){
