@@ -26,7 +26,7 @@ public class UsuarioDAO implements InterfaceCRUD{
     private ArrayList<UsuarioVO> listaUsuarioVO;
     private Connection conn;
     
-    
+    //sobrecarga de constructores
     public UsuarioDAO(){
         ConexionSingleton conexionSingleton=null;
         conn=conexionSingleton.obtenerConexionSingleton();
