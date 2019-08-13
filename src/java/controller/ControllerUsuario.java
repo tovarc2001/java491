@@ -6,6 +6,7 @@
 package controller;
 
 import com.google.gson.Gson;
+import contantes.ConstanteMVC;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import mensajes.RespuestaMVC;
 import model.dao.UsuarioDAO;
 import model.vo.UsuarioVO;
 
@@ -39,28 +41,35 @@ public class ControllerUsuario extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
           
-            Gson  objetoJson = new Gson();
-            String ruta = request.getServletPath();
-            String [] nombre= new String[3];
+            Gson  objetoJson = new Gson();//crear objeto Gson
+            String ruta = request.getServletPath();//obtener ruta para el filtrado 
+            RespuestaMVC respuestaMVC;
+            
+            
             UsuarioVO usuarioVO= new UsuarioVO();
             UsuarioDAO usuarioDAO = new UsuarioDAO();
             
-            ArrayList<Object> lista = new ArrayList<Object>();
             switch(ruta){
                 case "/usuario/listar":
-                    lista=usuarioDAO.listar();
+                    respuestaMVC= new RespuestaMVC(usuarioDAO.listar());
+                    respuestaMVC.parametrizarMensaje(ConstanteMVC.MENSAJE_LISTAR_USUARIO);
                     break;
                 case "/usuario/consultar":
-                    long cedula= Long.parseLong(request.getParameter("nombre"));
+                    long cedula= Long.parseLong(request.getParameter("cedula"));
                     usuarioVO.setCedula(cedula);
-                    usuarioDAO.consultar();
-                    break;                    
+                    usuarioDAO.setUsuarioVO(usuarioVO);
+                    respuestaMVC= new RespuestaMVC(usuarioDAO.consultar());
+                    respuestaMVC.parametrizarMensaje(ConstanteMVC.MENSAJE_CONSULTAR_USUARIO);
+                    break; 
+                default:
+                    respuestaMVC=null;
+                    break;
             }
             
             
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
-            out.print(objetoJson.toJson(lista));
+            out.print(objetoJson.toJson(respuestaMVC));
             out.flush();
         }catch(Exception ex){
             System.out.println(ex.getMessage());

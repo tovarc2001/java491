@@ -25,6 +25,32 @@ public class UsuarioDAO implements InterfaceCRUD{
     private UsuarioVO usuarioVO;
     private ArrayList<UsuarioVO> listaUsuarioVO;
     private Connection conn;
+    //get y set
+
+    public UsuarioVO getUsuarioVO() {
+        return usuarioVO;
+    }
+
+    public void setUsuarioVO(UsuarioVO usuarioVO) {
+        this.usuarioVO = usuarioVO;
+    }
+
+    public ArrayList<UsuarioVO> getListaUsuarioVO() {
+        return listaUsuarioVO;
+    }
+
+    public void setListaUsuarioVO(ArrayList<UsuarioVO> listaUsuarioVO) {
+        this.listaUsuarioVO = listaUsuarioVO;
+    }
+
+    public Connection getConn() {
+        return conn;
+    }
+
+    public void setConn(Connection conn) {
+        this.conn = conn;
+    }
+    
     
     //sobrecarga de constructores
     public UsuarioDAO(){
