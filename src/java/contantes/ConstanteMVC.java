@@ -12,7 +12,8 @@ public enum ConstanteMVC {
     MENSAJE_REGISTRAR_USUARIO(103,"usuario registrado exitosamente"),
     MENSAJE_CONSULTAR_USUARIO(104,"consulta de usuario",new Object()),
     MENSAJE_LISTAR_USUARIO(105,"lista de usuarios", new ArrayList<Object>()),
-    MENSAJE_LISTAR_PRODUCTO(106,"listar producto");
+    MENSAJE_LISTAR_PRODUCTO(106,"listar producto"),
+    MENSAJE_USUARIO_REPETIDO(107,"usuario repetido.");
 ;
     
     //atributos

@@ -40,40 +40,77 @@ public class ControllerUsuario extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-          
-            Gson  objetoJson = new Gson();//crear objeto Gson
+
+            Gson objetoJson = new Gson();//crear objeto Gson
             String ruta = request.getServletPath();//obtener ruta para el filtrado 
             RespuestaMVC respuestaMVC;
-            
-            
-            UsuarioVO usuarioVO= new UsuarioVO();
+
+            UsuarioVO usuarioVO = new UsuarioVO();
             UsuarioDAO usuarioDAO = new UsuarioDAO();
-            
-            switch(ruta){
+
+            switch (ruta) {
                 case "/usuario/listar":
-                    respuestaMVC= new RespuestaMVC(usuarioDAO.listar());
+                    respuestaMVC = new RespuestaMVC(usuarioDAO.listar());
                     respuestaMVC.parametrizarMensaje(ConstanteMVC.MENSAJE_LISTAR_USUARIO);
                     break;
                 case "/usuario/consultar":
-                    long cedula= Long.parseLong(request.getParameter("cedula"));
+                    long cedula = Long.parseLong(request.getParameter("cedula"));
                     usuarioVO.setCedula(cedula);
                     usuarioDAO.setUsuarioVO(usuarioVO);
-                    respuestaMVC= new RespuestaMVC(usuarioDAO.consultar());
+                    respuestaMVC = new RespuestaMVC(usuarioDAO.consultar());
                     respuestaMVC.parametrizarMensaje(ConstanteMVC.MENSAJE_CONSULTAR_USUARIO);
-                    break; 
+                    break;
+                case "/usuario/registrar":
+                    usuarioVO = registrar(request, usuarioVO);
+                    usuarioDAO.setUsuarioVO(usuarioVO);
+                    respuestaMVC = new RespuestaMVC();
+                    if (usuarioDAO.registrar()) {
+                        respuestaMVC.parametrizarMensaje(ConstanteMVC.MENSAJE_REGISTRAR_USUARIO);
+                    } else {
+                        respuestaMVC.parametrizarMensaje(ConstanteMVC.MENSAJE_USUARIO_REPETIDO);
+                    }
+                    break;
+                case "/usuario/editar":
+                    usuarioVO = actualizar(request, usuarioVO);
+                    usuarioDAO.setUsuarioVO(usuarioVO);
+                    respuestaMVC = new RespuestaMVC(usuarioDAO.editar());
+                    respuestaMVC.parametrizarMensaje(ConstanteMVC.MENSAJE_ACTUALIZAR_USUARIO);
+                    break;
+                case "/usuario/eliminar":
+                    registrar(request, usuarioVO);
+                    respuestaMVC = new RespuestaMVC(usuarioDAO.consultar());
+                    respuestaMVC.parametrizarMensaje(ConstanteMVC.MENSAJE_CONSULTAR_USUARIO);
+                    break;
                 default:
-                    respuestaMVC=null;
+                    respuestaMVC = null;
                     break;
             }
-            
-            
+
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             out.print(objetoJson.toJson(respuestaMVC));
             out.flush();
-        }catch(Exception ex){
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
+    }
+
+    public UsuarioVO registrar(HttpServletRequest request, UsuarioVO usuarioVO) {
+        usuarioVO.setCedula(Long.parseLong(request.getParameter("cedula")));
+        usuarioVO.setNombre(request.getParameter("nombre"));
+        usuarioVO.setApellido(request.getParameter("apellido"));
+        usuarioVO.setRol(request.getParameter("rol"));
+        usuarioVO.setCorreo(request.getParameter("correo"));
+        return usuarioVO;
+    }
+
+    private UsuarioVO actualizar(HttpServletRequest request, UsuarioVO usuarioVO) {
+        usuarioVO.setCedula(Long.parseLong(request.getParameter("cedula")));
+        usuarioVO.setNombre(request.getParameter("nombre"));
+        usuarioVO.setApellido(request.getParameter("apellido"));
+        usuarioVO.setRol(request.getParameter("rol"));
+        usuarioVO.setCorreo(request.getParameter("correo"));
+        return usuarioVO;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
