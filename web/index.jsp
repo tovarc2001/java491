@@ -74,7 +74,7 @@
         <script>
             var rol = ['user', 'admin', 'supervisor']
             $(".menu").load("./componentes/menuSupervisor.html")
-            $(".contenedor-principal").load("./vista/usuario/registrarUsuario.html")
+            $(".contenedor-principal").load("./vista/usuario/listarUsuario.html")
         </script>
 
     </body>

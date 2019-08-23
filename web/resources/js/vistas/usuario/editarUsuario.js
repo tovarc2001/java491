@@ -3,23 +3,33 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-var registrarUsuario={
+var editarUsuario={
     init: function(){
-        $("#formRegistrarUsuario").submit(function(){
+        
+        if(typeof(sessionStorage.getItem('info-editar'))!='undefined'){
+            var info=JSON.parse(sessionStorage.getItem('info-editar'))
+            $("input[name=cedula]").val(info.cedula)
+            $("input[name=nombre]").val(info.nombre)
+            $("input[name=apellido]").val(info.apellido)
+            $("input[name=correo]").val(info.correo)
+            $("select[name=rol]").val(info.rol)
+        }
+        
+        $("#formEditarUsuario").submit(function(){
             return false
         })
-        $("#btnAceptarRegistrarUsuario").click(function(){
-            registrarUsuario.validar()
+        $("#btnAceptarEditarUsuario").click(function(){
+            editarUsuario.validar()
         })
         $("#btnVistaListar").click(function(){
-            registrarUsuario.cargarVista('vista/usuario/listarUsuario.html')
+            editarUsuario.cargarVista('vista/usuario/listarUsuario.html')
         })
         console.log("desde init en registrar Usuario")
     },
     validar:function(){
         console.log("desde validar en registrar Usuario")
         
-        $("#formRegistrarUsuario").validate({
+        $("#formEditarUsuario").validate({
             rules:{
                 cedula:{
                     required:true,
@@ -61,23 +71,24 @@ var registrarUsuario={
                 }              
             },
             submitHandler:function(){
-                registrarUsuario.registrar()
+                editarUsuario.registrar()
             }
         })
-        $("#formRegistrarUsuario").submit()
+        $("#formEditarUsuario").submit()
     },
     registrar:function(){
        $.ajax({
-           url:'./usuario/registrar',
-           data:$("#formRegistrarUsuario").serialize(),
+           url:'./usuario/editar',
+           data:$("#formEditarUsuario").serialize(),
            type:'post',
            dataType:'json',
            success:function(resultado){
                console.log(resultado)
-               if(resultado.codigo==103){
-                   registrarUsuario.mostrarMensaje('Usuario',resultado.mensaje)
+               if(resultado.codigo==100){
+                   editarUsuario.mostrarMensaje('Usuario',resultado.mensaje)
+                   editarUsuario.cargarVista('vista/usuario/listarUsuario.html')
                }else if(resultado.codigo==107){
-                   registrarUsuario.mostrarMensaje('Error',resultado.mensaje)
+                   editarUsuario.mostrarMensaje('Error',resultado.mensaje)
                }
                
            },
@@ -97,4 +108,4 @@ var registrarUsuario={
    
 }
 
-registrarUsuario.init()
+editarUsuario.init()

@@ -78,6 +78,7 @@ public class UsuarioDAO implements InterfaceCRUD {
                 temporal.setNombre(resultado.getString("nombre"));
                 temporal.setApellido(resultado.getString("apellido"));
                 temporal.setRol(resultado.getString("rol"));
+                temporal.setCorreo(resultado.getString("correo"));
                 listaUsuarioVO.add(temporal);
             }
             return (ArrayList<Object>) (Object) listaUsuarioVO;
@@ -106,12 +107,13 @@ public class UsuarioDAO implements InterfaceCRUD {
         try {
             Object consultar = consultar();
             if (consultar == null) {
-                String consulta = "INSERT INTO usuario (cedula, nombre, apellido, rol) values(?,?,?,?)";
+                String consulta = "INSERT INTO usuario (cedula, nombre, apellido, rol,correo) values(?,?,?,?,?)";
                 PreparedStatement ps = conn.prepareStatement(consulta);
                 ps.setLong(1, usuarioVO.getCedula());
                 ps.setString(2, usuarioVO.getNombre());
                 ps.setString(3, usuarioVO.getApellido());
                 ps.setString(4, usuarioVO.getRol());
+                ps.setString(5, usuarioVO.getCorreo());
                 ps.execute();
                 return true;
             }else{
@@ -156,6 +158,7 @@ public class UsuarioDAO implements InterfaceCRUD {
                 usuarioTemp.setNombre(resultado.getString("nombre"));
                 usuarioTemp.setApellido(resultado.getString("apellido"));
                 usuarioTemp.setRol(resultado.getString("rol"));
+                usuarioTemp.setCorreo(resultado.getString("correo"));
             }
             return (Object) usuarioTemp;
         } catch (SQLException ex) {
