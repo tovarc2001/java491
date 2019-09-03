@@ -15,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import mensajes.RespuestaMVC;
 import model.dao.UsuarioDAO;
 import model.vo.UsuarioVO;
@@ -23,7 +24,7 @@ import model.vo.UsuarioVO;
  *
  * @author Administrador
  */
-@WebServlet(name = "ControllerUsuario", urlPatterns = {"/usuario/registrar", "/usuario/editar", "/usuario/eliminar", "/usuario/listar", "/usuario/consultar"})
+@WebServlet(name = "ControllerUsuario", urlPatterns = {"/usuario/registrar", "/usuario/editar", "/usuario/eliminar", "/usuario/listar", "/usuario/consultar","/usuario/iniciarSesion"})
 public class ControllerUsuario extends HttpServlet {
 
     /**
@@ -81,6 +82,32 @@ public class ControllerUsuario extends HttpServlet {
                     respuestaMVC = new RespuestaMVC(usuarioDAO.consultar());
                     respuestaMVC.parametrizarMensaje(ConstanteMVC.MENSAJE_CONSULTAR_USUARIO);
                     break;
+                case "/usuario/iniciarSesion":
+                    long cedulaUsuario = Long.parseLong(request.getParameter("cedula"));
+                    String claveUsuario = request.getParameter("clave");
+                    usuarioVO.setCedula(cedulaUsuario);
+                    usuarioVO.setClave(claveUsuario);
+                    usuarioDAO.setUsuarioVO(usuarioVO);
+                    
+                    Object resp=usuarioDAO.iniciarSesion();
+                    if(resp==null){
+                        respuestaMVC = new RespuestaMVC();
+                        respuestaMVC.parametrizarMensaje(ConstanteMVC.MENSAJE_SESION_FALLIDA);
+                    }else{  
+                        HttpSession sesion = request.getSession(true);
+                        sesion.setAttribute("usuario", resp);
+                        respuestaMVC = new RespuestaMVC(resp);
+                        respuestaMVC.parametrizarMensaje(ConstanteMVC.MENSAJE_INICIAR_SESION);
+                    }
+                    
+                    
+                    break;  
+                case "/usuario/destruirSesion":
+                    HttpSession sesion = request.getSession(true);
+                    sesion.invalidate();
+                    respuestaMVC = new RespuestaMVC();
+                    respuestaMVC.parametrizarMensaje(ConstanteMVC.MENSAJE_DESTRUIR_SESION);
+                    break;                    
                 default:
                     respuestaMVC = null;
                     break;

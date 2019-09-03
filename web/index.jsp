@@ -4,6 +4,7 @@
     Author     : Administrador
 --%>
 
+<%@page import="model.vo.UsuarioVO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -11,38 +12,31 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link href="resources/css/bootstrap.css" rel="stylesheet" type="text/css"/>  
         <link href="resources/css/style.css" rel="stylesheet" type="text/css"/>  
-        
+
         <!--carga de jquery boostrap--> 
         <script src="resources/js/lib/jquery-3.4.1.js" type="text/javascript"></script>
         <script src="resources/js/lib/popper.min.js" type="text/javascript"></script>
         <script src="resources/js/lib/bootstrap.js" type="text/javascript"></script>
-        
+
         <!--carga de librerías para validación--> 
         <script src="resources/js/lib/jquery.validate.js" type="text/javascript"></script>
         <script src="resources/js/lib/additional-methods.js" type="text/javascript"></script>
+        
+        <!--md5-->
+        <script src="resources/js/lib/md5.js" type="text/javascript"></script>
+        
         <title>JSP Page</title>
     </head>
     <body>
+
+
+
         <div class="menu"></div>
         <div class="container-fluid">
             <div class="row">
-                <div class="col-sm-3 col-md-3 menu-lateral" style="background-color: red">
-                    Qué es Lorem Ipsum?
-
-                    Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta) desconocido usó una galería de textos y los mezcló de tal manera que logró hacer un libro de textos especimen. No sólo sobrevivió 500 años, sino que tambien ingresó como texto de relleno en documentos electrónicos, quedando esencialmente igual al original. Fue popularizado en los 60s con la creación de las hojas "Letraset", las cuales contenian pasajes de Lorem Ipsum, y más recientemente con software de autoedición, como por ejemplo Aldus PageMaker, el cual incluye versiones de Lorem Ipsum.
-                    ¿Por qué lo usamos?
-
-                    Es un hecho establecido hace demasiado tiempo que un lector se distraerá con el contenido del texto de un sitio mientras que mira su diseño. El punto de usar Lorem Ipsum es que tiene una distribución más o menos normal de las letras, al contrario de usar textos como por ejemplo "Contenido aquí, contenido aquí". Estos textos hacen parecerlo un español que se puede leer. Muchos paquetes de autoedición y editores de páginas web usan el Lorem Ipsum como su texto por defecto, y al hacer una búsqueda de "Lorem Ipsum" va a dar por resultado muchos sitios web que usan este texto si se encuentran en estado de desarrollo. Muchas versiones han evolucionado a través de los años, algunas veces por accidente, otras veces a propósito (por ejemplo insertándole humor y cosas por el estilo).
-
+                <div class="col-sm-3 col-md-3  menu-lateral" >                   
                 </div>
-                <div class="col-sm-9 col-md-9 contenedor-principal" style="background-color: cyan">
-                    Qué es Lorem Ipsum?
-
-                    Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta) desconocido usó una galería de textos y los mezcló de tal manera que logró hacer un libro de textos especimen. No sólo sobrevivió 500 años, sino que tambien ingresó como texto de relleno en documentos electrónicos, quedando esencialmente igual al original. Fue popularizado en los 60s con la creación de las hojas "Letraset", las cuales contenian pasajes de Lorem Ipsum, y más recientemente con software de autoedición, como por ejemplo Aldus PageMaker, el cual incluye versiones de Lorem Ipsum.
-                    ¿Por qué lo usamos?
-
-                    Es un hecho establecido hace demasiado tiempo que un lector se distraerá con el contenido del texto de un sitio mientras que mira su diseño. El punto de usar Lorem Ipsum es que tiene una distribución más o menos normal de las letras, al contrario de usar textos como por ejemplo "Contenido aquí, contenido aquí". Estos textos hacen parecerlo un español que se puede leer. Muchos paquetes de autoedición y editores de páginas web usan el Lorem Ipsum como su texto por defecto, y al hacer una búsqueda de "Lorem Ipsum" va a dar por resultado muchos sitios web que usan este texto si se encuentran en estado de desarrollo. Muchas versiones han evolucionado a través de los años, algunas veces por accidente, otras veces a propósito (por ejemplo insertándole humor y cosas por el estilo).
-
+                <div class="col-sm-9 col-md-9 contenedor-principal" >                    
                 </div>
 
             </div>            
@@ -72,9 +66,29 @@
 
 
         <script>
-            var rol = ['user', 'admin', 'supervisor']
-            $(".menu").load("./componentes/menuSupervisor.html")
-            $(".contenedor-principal").load("./vista/usuario/listarUsuario.html")
+
+            <%
+                HttpSession sesion = request.getSession(true);
+                
+                if (sesion.getAttribute("usuario") == null) {
+                    out.println("$('.menu-lateral').hide()");
+                    out.println("$('.contenedor-principal').load('./vista/usuario/iniciarSesion.html')");
+                    out.println("$('.contenedor-principal').removeClass('col-sm-9 col-md-9').addClass('offset-md-3 col-sm-12 col-md-6')");
+
+                }else{
+                 
+                    UsuarioVO  usu=(UsuarioVO)sesion.getAttribute("usuario");                    
+                    if(usu.getRol().equals("admin")){     
+                       out.println("$('.menu').load('./componentes/menuAdmin.html')"); 
+                       out.println("$('.menu-lateral').load('./componentes/menuLateralAdmin.html')");
+                       out.println("$('.contenedor-principal').load('./vista/usuario/listarUsuario.html')");
+                    }else if(usu.getRol().equals("user")){
+                       out.println("$('.menu').load('./componentes/menuUsuario.html')");    
+                       out.println("$('.menu-lateral').load('./componentes/menuLateralUsuario.html')");
+                       out.println("$('.contenedor-principal').load('./vista/usuario/listarUsuario.html')");
+                   }
+                }
+            %>
         </script>
 
     </body>

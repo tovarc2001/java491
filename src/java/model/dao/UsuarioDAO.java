@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.conexion.ConexionSingleton;
@@ -144,6 +145,34 @@ public class UsuarioDAO implements InterfaceCRUD {
         return false;
     }
 
+    public Object iniciarSesion() {
+        try {
+            String consulta = "SELECT * FROM usuario WHERE cedula=? AND clave=?";
+            PreparedStatement ps = conn.prepareStatement(consulta);
+            ps.setLong(1, usuarioVO.getCedula());
+            ps.setString(2, usuarioVO.getClave());
+            ResultSet resultado = ps.executeQuery();
+            UsuarioVO usuarioTemp = null;
+            while (resultado.next()) {
+                usuarioTemp = new UsuarioVO();
+                usuarioTemp.setCedula(resultado.getLong("cedula"));
+                usuarioTemp.setNombre(resultado.getString("nombre"));
+                usuarioTemp.setApellido(resultado.getString("apellido"));
+                usuarioTemp.setRol(resultado.getString("rol"));
+                usuarioTemp.setCorreo(resultado.getString("correo"));
+            }
+            return (Object) usuarioTemp;
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    
+    public void destruirSesion(){
+        
+    }
+    
     @Override
     public Object consultar() {
         try {
@@ -165,6 +194,13 @@ public class UsuarioDAO implements InterfaceCRUD {
             Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+    
+    
+    
+    
+    public void recuperarClave(){
+        
     }
 
     public static void main(String[] args) {

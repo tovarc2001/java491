@@ -12,14 +12,16 @@ create table usuario(
     cedula bigint not null primary key auto_increment,
     nombre varchar(50) not null,
     apellido varchar(50) not null,
+    correo varchar(50) not null,
+    clave varchar(50) not null,
     rol enum('admin', 'user') not null
 );
 
 describe usuario;
 
 
-insert into usuario values(1234,"Carlos","Vargas","admin"),
-(4444,"Jaime","Puentes","user"),(5555,"Zaida","Rivera","admin");
+insert into usuario (cedula,nombre, apellido, rol, correo, clave) values(1111111,"Carlos","Vargas","admin","cv@cv.co",md5("12345678")),
+(2222222,"Jaime","Puentes","user","jp@jp.co",md5("12345678")),(3333333,"Zaida","Rivera","admin","zr@zr.co",md5("12345678"));
 
 
 select * from usuario where 1;

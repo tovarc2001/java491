@@ -16,6 +16,7 @@ public class UsuarioVO {
     private String apellido;
     private String rol;
     private String correo;
+    private String clave;
     //get y set
 
     public long getCedula() {
@@ -56,6 +57,14 @@ public class UsuarioVO {
 
     public void setCorreo(String correo) {
         this.correo = correo;
+    }
+
+    public String getClave() {
+        return clave;
+    }
+
+    public void setClave(String clave) {
+        this.clave = clave;
     }
     
     
