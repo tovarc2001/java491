@@ -13,6 +13,11 @@ var iniciarSesionUsuario = {
             console.log('prueba')
             iniciarSesionUsuario.validar()
         })
+        
+        $("#linkOlvidarContrasena").click(function(){
+            alert("prueba")
+            iniciarSesionUsuario.recuperarContrasena()
+        })
 
     },
     validar: function () {

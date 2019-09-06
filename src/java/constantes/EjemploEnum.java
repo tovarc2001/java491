@@ -1,6 +1,6 @@
  // @author Administrador
 
-package contantes;
+package constantes;
 
 import com.google.gson.Gson;
 

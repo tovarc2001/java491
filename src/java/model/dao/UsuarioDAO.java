@@ -196,11 +196,27 @@ public class UsuarioDAO implements InterfaceCRUD {
         return null;
     }
     
-    
-    
-    
-    public void recuperarClave(){
-        
+
+    public Object consultarCorreo() {
+        try {
+            String consulta = "SELECT * FROM usuario WHERE correo=?";
+            PreparedStatement ps = conn.prepareStatement(consulta);
+            ps.setString(1, usuarioVO.getCorreo());
+            ResultSet resultado = ps.executeQuery();
+            UsuarioVO usuarioTemp = null;
+            while (resultado.next()) {
+                usuarioTemp = new UsuarioVO();
+                usuarioTemp.setCedula(resultado.getLong("cedula"));
+                usuarioTemp.setNombre(resultado.getString("nombre"));
+                usuarioTemp.setApellido(resultado.getString("apellido"));
+                usuarioTemp.setRol(resultado.getString("rol"));
+                usuarioTemp.setCorreo(resultado.getString("correo"));
+            }
+            return (Object) usuarioTemp;
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
     public static void main(String[] args) {

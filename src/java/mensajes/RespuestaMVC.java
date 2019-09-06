@@ -3,7 +3,7 @@
 package mensajes;
 
 import com.google.gson.Gson;
-import contantes.ConstanteMVC;
+import constantes.ConstanteMVC;
 import java.util.ArrayList;
 import model.vo.UsuarioVO;
 

@@ -1,6 +1,6 @@
  // @author Administrador
 
-package contantes;
+package constantes;
 
 import java.util.ArrayList;
 
@@ -16,7 +16,13 @@ public enum ConstanteMVC {
     MENSAJE_USUARIO_REPETIDO(107,"usuario repetido."),
     MENSAJE_INICIAR_SESION(108,"sesión iniciada",new Object()),
     MENSAJE_DESTRUIR_SESION(109,"sesión destruida",new Object()),
-    MENSAJE_SESION_FALLIDA(110,"credenciales inválidas, digite nuevamente");
+    MENSAJE_SESION_FALLIDA(110,"credenciales inválidas, digite nuevamente"),
+    
+    //clase RecuperarClave
+    MENSAJE_CORREO_INVALIDO(200,"correo invalido"),
+    MENSAJE_CORREO_ENVIADO(201,"Contraseña recuparada. Revise su correo")
+    
+    ;
 ;
     
     //atributos
