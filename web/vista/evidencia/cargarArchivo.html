@@ -1,0 +1,32 @@
+<form id="formRegistrarUsuario" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="exampleFormControlInput1">Cargar archivo</label>
+        <input type="file" accept=".pdf" class="form-control" name="archivo"  placeholder="">
+    </div>
+    <div>
+        <button type="button" class="btn btn-success btnSubirArchivo">Subir archivo</button>
+    </div>
+    
+</form>    
+ 
+<table border="1">
+    <thead>
+        <tr>
+            <th>nombre</th>
+            <th>accion</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>n1</td>
+            <td><a href="./evidencia/PLSQL5.pdf" class="btn btn-info" download="download">descargar</a></td>
+        </tr>
+        <tr>
+            <td>n2</td>
+            <td><a href="./evidencia/PLSQL7.pdf" class="btn btn-info">descargar</a></td>
+        </tr>
+    </tbody>
+</table>
+
+
+<script src="resources/js/vistas/evidencia/cargarArchivo.js" type="text/javascript"></script>

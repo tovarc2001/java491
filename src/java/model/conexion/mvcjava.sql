@@ -7,7 +7,8 @@
  * Author:  Nanimo
  * Created: jul 28, 2019
  */
-
+create database mvcjava;
+use mvcjava;
 create table usuario(
     cedula bigint not null primary key auto_increment,
     nombre varchar(50) not null,
@@ -25,3 +26,11 @@ insert into usuario (cedula,nombre, apellido, rol, correo, clave) values(1111111
 
 
 select * from usuario where 1;
+
+create table evidencia(
+	id int primary key not null auto_increment,
+	cedula bigint not null,
+	nombre varchar(50) not null,
+	ruta varchar(50) not null,
+	foreign key (cedula) references usuario(cedula)
+)
